@@ -1,0 +1,46 @@
+from dataclasses import dataclass
+
+from rabbitx import const
+from rabbitx.client.endpoint_group import EndpointGroup
+from rabbitx.metamask import MetamaskSignRequest, metamask_sign
+from rabbitx.util import hex2bytes
+
+
+@dataclass
+class APIKey:
+
+    key: str
+    secret: str
+
+
+class OnboardingGroup(EndpointGroup):
+
+    def onboarding(self):
+        wallet = self.session.wallet
+        signature = self._prepare_signature()
+        data = dict(wallet=wallet, signature=signature, isClient=False)
+        resp = self.session.session.post(
+            f'{self.session.api_url}/onboarding',
+            json=data,
+            headers=self.session.headers,
+        ).json()
+
+        if err := resp['error']:
+            raise Exception(err)
+
+        if resp['success']:
+            api_secret = resp['result'][0]['apiSecret']
+            self.session.api_key = api_secret['Key']
+            self.session.api_secret = api_secret['Secret']
+            self.session._jwt = resp['result'][0]['jwt']
+            self.session.profile_id = resp['result'][0]['profile']['id']
+
+        return resp['result'][0]
+
+    def _prepare_signature(self) -> str:
+        sign_request = MetamaskSignRequest(const.ONBOARDING_MESSAGE, self.session.expiration_timestamp)
+        signature = metamask_sign(sign_request, self.session.private_key)
+        signature = bytearray(hex2bytes(signature))
+        signature[-1] = signature[-1] % 27
+
+        return '0x' + signature.hex()
