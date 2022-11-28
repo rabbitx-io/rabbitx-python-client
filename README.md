@@ -1,4 +1,4 @@
-## Rabbit API Python
+## (Unofficial) RabbitX API Python
 
 ### Installation
 
