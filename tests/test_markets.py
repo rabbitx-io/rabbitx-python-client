@@ -20,6 +20,7 @@ def test_market():
 def test_single_market():
     symbol = 'BTC-USD'
     markets = client.markets.list([symbol])
+    print(markets)
     assert len(markets) == 1
     assert markets[0]['id'] == symbol
     
@@ -31,13 +32,11 @@ def test_candles():
 def test_market_trades():
     symbol = 'BTC-USD'
     trades = client.trades.list(market_id=symbol, limit=100)
-    print(trades)
     assert len(trades) > 0
     assert trades[0]['market_id'] == symbol
     
 def test_market_orderbook():
     symbol ='BTC-USD'
     orderbook = client.orderbook.get(symbol)
-    print(orderbook)
     assert len(orderbook) > 0
     assert orderbook[0]['market_id'] == symbol
