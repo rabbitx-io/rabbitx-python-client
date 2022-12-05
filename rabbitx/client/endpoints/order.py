@@ -61,14 +61,12 @@ class OrderGroup(EndpointGroup):
         market_id: str,
         price: float,
         size: float,
-        type_: OrderType,
     ):
         data = dict(
             order_id=order_id,
             market_id=market_id,
             price=price,
             size=size,
-            type=type_.value,
             method='PUT',
             path='/orders',
         )
@@ -102,25 +100,25 @@ class OrderGroup(EndpointGroup):
         self,
         offset: int = 0,
         limit: int = 100,
-        side: OrderSide = None,
-        status: OrderStatus = None,
-        market_id: str = None,
+        side: list[OrderSide] = None,
+        status: list[OrderStatus] = None,
+        market_id: list[str] = None,
     ):
-        data = dict(method='GET', path='/orders')
+        data = dict(method='GET', path='/orders/list')
         self.session.sign_request(data)
         params = dict(offset=offset, limit=limit)
 
         if side:
-            params['side'] = ','.join(side.value)
+            params['side'] = ','.join([_side.value for _side in side])
 
         if status:
-            params['status'] = ','.join(status.value)
+            params['status'] = ','.join([_status.value for _status in status])
 
         if market_id:
             params['market_id'] = ','.join(market_id)
 
         resp = self.session.session.get(
-            f'{self.session.api_url}/orders',
+            f'{self.session.api_url}/orders/list',
             params=params,
             headers=self.session.headers,
         ).json()
