@@ -42,6 +42,6 @@ def test_order_list():
     result = client.orders.list()
     pprint(result)
     
-def test_order_cancel_all():
-    result = client.orders.cancel_all()
-    pprint(result)
+# def test_order_cancel_all():
+#     result = client.orders.cancel_all()
+#     pprint(result)
