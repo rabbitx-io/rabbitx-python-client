@@ -1,3 +1,7 @@
+import os
+import sys
+sys.path.append(os.path.abspath('../'))
+
 import rabbitx
 from rabbitx import const
 from rabbitx.client import Client, CandlePeriod
@@ -12,3 +16,7 @@ def test_account():
     result = client.account.get()
     assert len(result) > 0
     assert result[0]['status'] == 'active'
+    
+def test_set_leverage():
+    result = client.account.set_leverage(market_id="BTC-USD", leverage=20)
+    assert result['leverage']['BTC-USD']=='20'
