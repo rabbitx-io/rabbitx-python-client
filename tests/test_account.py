@@ -19,4 +19,13 @@ def test_account():
     
 def test_set_leverage():
     result = client.account.set_leverage(market_id="BTC-USD", leverage=20)
+<<<<<<< HEAD
     assert result['leverage']['BTC-USD']=='20'
+=======
+    assert result['leverage']['BTC-USD']=='20'
+    
+    
+if __name__ =='__main__':
+    test_account()
+    test_set_leverage()
+>>>>>>> dev

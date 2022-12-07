@@ -15,7 +15,7 @@ class AccountGroup(EndpointGroup):
         if err := resp['error']:
             raise Exception(err)
 
-        return resp['result']
+        return resp['result'][0]
 
     def validate(self, jwt: str) -> bool:
         data = dict(method='GET', path='/account/validate')
