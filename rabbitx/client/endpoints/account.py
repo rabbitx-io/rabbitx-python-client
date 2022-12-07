@@ -33,15 +33,27 @@ class AccountGroup(EndpointGroup):
 
         return resp['success']
 
-    def set_leverage(self, market_id: str, leverage: float):
+    def set_leverage(self, market_id: str, leverage: int):
+        """_summary_
+
+        Args:
+            market_id (str): market id
+            leverage (int): Must be one of integer from 1-20
+
+        Raises:
+            Exception: _description_
+
+        Returns:
+            _type_: _description_
+        """
         data = dict(
-            marketID=market_id,
+            market_id=market_id,
             leverage=leverage,
-            method='POST',
+            method='PUT',
             path='/account/leverage',
         )
         self.session.sign_request(data)
-        resp = self.session.session.post(
+        resp = self.session.session.put(
             f'{self.session.api_url}/account/leverage',
             json=data,
             headers=self.session.headers,

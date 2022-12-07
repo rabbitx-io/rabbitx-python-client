@@ -127,3 +127,17 @@ class OrderGroup(EndpointGroup):
             raise Exception(err)
 
         return resp['result']
+
+    def cancel_all(self):
+        data = dict(method='DELETE', path='/orders/cancel_all')
+        self.session.sign_request(data)
+        resp = self.session.session.delete(
+            f'{self.session.api_url}/orders/cancel_all',
+            json=data,
+            headers=self.session.headers,
+        ).json()
+
+        if err := resp['error']:
+            raise Exception(err)
+
+        return resp['result']

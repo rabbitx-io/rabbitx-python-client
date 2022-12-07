@@ -31,7 +31,7 @@ def test_order_cancel():
 def test_order_amend():
     result = client.orders.create(market_id=market_symbol, price=10000, side=OrderSide.LONG, size=1, type_=OrderType.LIMIT)
     ord_id = result['id']
-    result = client.orders.amend(order_id=ord_id, market_id=market_symbol, price=10001, size=2)
+    result = client.orders.amend(order_id=ord_id, market_id=market_symbol, price=10001, size=3)
     
     pprint(result)
     assert result['status'] == 'amending'
@@ -40,4 +40,8 @@ def test_order_amend():
 
 def test_order_list():
     result = client.orders.list()
+    pprint(result)
+    
+def test_order_cancel_all():
+    result = client.orders.cancel_all()
     pprint(result)
