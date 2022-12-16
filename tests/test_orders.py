@@ -35,7 +35,7 @@ def test_order_amend():
     
     pprint(result)
     assert result['status'] == 'amending'
-    assert result['size'] == '2'
+    assert result['size'] == '3'
     assert result['price'] == '10001'
 
 def test_order_list():
