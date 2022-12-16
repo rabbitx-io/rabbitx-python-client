@@ -100,22 +100,22 @@ class OrderGroup(EndpointGroup):
         self,
         offset: int = 0,
         limit: int = 100,
-        side: list[OrderSide] = None,
-        status: list[OrderStatus] = None,
-        market_id: list[str] = None,
+        side: OrderSide = None,
+        status: OrderStatus = None,
+        market_id: str = None,
     ):
         data = dict(method='GET', path='/orders/list')
         self.session.sign_request(data)
         params = dict(offset=offset, limit=limit)
 
         if side:
-            params['side'] = ','.join([_side.value for _side in side])
+            params['side'] = side
 
         if status:
-            params['status'] = ','.join([_status.value for _status in status])
+            params['status'] = status
 
         if market_id:
-            params['market_id'] = ','.join(market_id)
+            params['market_id'] = market_id
 
         resp = self.session.session.get(
             f'{self.session.api_url}/orders/list',
