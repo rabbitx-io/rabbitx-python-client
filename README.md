@@ -5,7 +5,7 @@
 ```
 git clone git@gitlab.com:stripsdev/rabbit-dex-python-client.git
 cd rabbit-dex-python-client
-python setup.py install
+pip install .
 ```
 
 ### How to use
