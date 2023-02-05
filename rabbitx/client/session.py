@@ -4,6 +4,7 @@ from typing import Any
 import requests
 from requests import Session
 from web3.auto import w3
+from eth_account.signers.local import LocalAccount
 
 from rabbitx import const
 from rabbitx.payload import Payload
@@ -106,8 +107,9 @@ class ClientSession:
         if not self.private_key:
             raise ValueError
 
-        account = w3.eth.account.privateKeyToAccount(self.private_key)
-
+        assert self.private_key.startswith('0x')
+        account: LocalAccount = w3.eth.account.from_key(self.private_key)
+        
         return account.address
 
     def sign_request(self, data: dict[str, Any]):
