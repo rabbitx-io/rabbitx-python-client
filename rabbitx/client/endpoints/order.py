@@ -98,11 +98,11 @@ class OrderGroup(EndpointGroup):
 
     def list(
         self,
+        market_id: str,
         offset: int = 0,
         limit: int = 100,
         side: OrderSide = None,
         status: OrderStatus = None,
-        market_id: str = None,
     ):
         data = dict(method='GET', path='/orders/list')
         self.session.sign_request(data)
