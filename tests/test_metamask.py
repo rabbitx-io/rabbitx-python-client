@@ -6,7 +6,7 @@ from rabbitx.metamask import metamask_sign, MetamaskSignRequest, metamask_verify
 
 def test_metamask_sign_verify():
     private_key = '0x0000000000000000000000000000000000000000000000000000000000000001'
-    account = w3.eth.account.privateKeyToAccount(private_key)
+    account = w3.eth.account.from_key(private_key)
     wallet = account.address
     message = 'Welcome to Rabbit DEX'
 
