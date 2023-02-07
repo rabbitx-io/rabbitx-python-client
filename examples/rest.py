@@ -58,11 +58,11 @@ if __name__ == '__main__':
     new_jwt = client.jwt.update()
     print('\n\n\nnew jwt:\n', candles)
 
-    fills = client.fills.list(
-        client.current_timestamp - 10,
-        client.current_timestamp + 10,
-        0,
-        100,
-        ['BTC-USD', 'SOL-USD'],
-    )
-    print('\n\n\nfills:\n', fills)
+    # fills = client.fills.list(
+    #     client.current_timestamp - 10,
+    #     client.current_timestamp + 10,
+    #     0,
+    #     100,
+    #     ['BTC-USD', 'SOL-USD'],
+    # )
+    # print('\n\n\nfills:\n', fills)
