@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     order_1 = client.orders.create(
         'BTC-USD',
-        19000,
+        23000,
         OrderSide.LONG,
         1,
         OrderType.LIMIT,
@@ -24,13 +24,13 @@ if __name__ == '__main__':
 
     order_2 = client.orders.create(
         'BTC-USD',
-        19000,
+        23000,
         OrderSide.SHORT,
         1,
         OrderType.LIMIT,
     )
 
-    client.orders.amend(order_1['id'], 19000, 2, OrderType.MARKET)
+    client.orders.amend(order_1['id'], order_1['market_id'], 23000, 2)
     client.orders.cancel(order_1['id'])
 
     orders = client.orders.list(client.current_timestamp - 10, client.current_timestamp + 10)
