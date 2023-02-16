@@ -84,69 +84,70 @@ class WSClient:
             ws.send(json.dumps(data))
 
     def on_message(self, ws: WebSocketApp, message: str):
-        try:
-            data = json.loads(message)
-        except Exception as e:
-            print(u'\u001b[31m ~~~ EXCEPTION ~~~')
-            print(e)
-            print(message, u'u\u001b[0m')
-            return
-
-        # ping
-        if data == {}:
-            ws.send(json.dumps({}))
-            return
-
-        # initial message
-        if subscribe := data.get('subscribe', None):
-            if data.get('id') == 1:
+        for line in message.split('\n'):
+            try:
+                data = json.loads(line)
+            except Exception as e:
+                print(u'\u001b[31m ~~~ EXCEPTION ~~~')
+                print(e)
+                print(message, u'u\u001b[0m')
                 return
 
-            channel = self._id_to_channel.get(data['id'])
-
-            if not channel:
+            # ping
+            if data == {}:
+                ws.send(json.dumps({}))
                 return
 
-            initial_data = subscribe['data']
+            # initial message
+            if subscribe := data.get('subscribe', None):
+                if data.get('id') == 1:
+                    return
 
-            if channel.startswith('account'):
-                *_, profile_id = channel.split('@')
-                self.callback.account_init(profile_id, initial_data, ws)
+                channel = self._id_to_channel.get(data['id'])
 
-            if channel.startswith('orderbook'):
-                *_, market_id = channel.split(':')
-                self.callback.orderbook_init(market_id, initial_data, ws)
+                if not channel:
+                    return
 
-            if channel.startswith('market'):
-                *_, market_id = channel.split(':')
-                self.callback.market_init(market_id, initial_data, ws)
+                initial_data = subscribe['data']
 
-            if channel.startswith('trade'):
-                *_, market_id = channel.split(':')
-                self.callback.trade_init(market_id, initial_data, ws)
+                if channel.startswith('account'):
+                    *_, profile_id = channel.split('@')
+                    self.callback.account_init(profile_id, initial_data, ws)
 
-        if push := data.get('push', None):
-            if 'epoch' in push and 'recoverable' in push:
-                return
+                if channel.startswith('orderbook'):
+                    *_, market_id = channel.split(':')
+                    self.callback.orderbook_init(market_id, initial_data, ws)
 
-            channel = push['channel']
-            channel_data = push['pub']['data']
+                if channel.startswith('market'):
+                    *_, market_id = channel.split(':')
+                    self.callback.market_init(market_id, initial_data, ws)
 
-            if channel.startswith('account'):
-                *_, profile_id = channel.split('@')
-                self.callback.account_data(profile_id, channel_data, ws)
+                if channel.startswith('trade'):
+                    *_, market_id = channel.split(':')
+                    self.callback.trade_init(market_id, initial_data, ws)
 
-            if channel.startswith('orderbook'):
-                *_, market_id = channel.split(':')
-                self.callback.orderbook_data(market_id, channel_data, ws)
+            if push := data.get('push', None):
+                if 'epoch' in push and 'recoverable' in push:
+                    return
 
-            if channel.startswith('market'):
-                *_, market_id = channel.split(':')
-                self.callback.market_data(market_id, channel_data, ws)
+                channel = push['channel']
+                channel_data = push['pub']['data']
 
-            if channel.startswith('trade'):
-                *_, market_id = channel.split(':')
-                self.callback.trade_data(market_id, channel_data, ws)
+                if channel.startswith('account'):
+                    *_, profile_id = channel.split('@')
+                    self.callback.account_data(profile_id, channel_data, ws)
+
+                if channel.startswith('orderbook'):
+                    *_, market_id = channel.split(':')
+                    self.callback.orderbook_data(market_id, channel_data, ws)
+
+                if channel.startswith('market'):
+                    *_, market_id = channel.split(':')
+                    self.callback.market_data(market_id, channel_data, ws)
+
+                if channel.startswith('trade'):
+                    *_, market_id = channel.split(':')
+                    self.callback.trade_data(market_id, channel_data, ws)
 
     def on_error(self, ws: WebSocketApp, error):
         raise error
