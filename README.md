@@ -10,8 +10,8 @@ pip install .
 
 ### How to use
 
-- Example has to use REST api client is [here](examples/rest.py)
-- An example of using WebSocket is [here](examples/ws.py)
+- An example using REST api client is [here](examples/rest.py)
+- An example using WebSocket is [here](examples/ws.py)
 
 ### REST interaction example
 
