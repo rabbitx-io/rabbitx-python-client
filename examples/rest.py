@@ -1,5 +1,6 @@
 from rabbitx import const
 from rabbitx.client import Client, CandlePeriod, OrderSide, OrderType
+from rabbitx.client import OrderStatus
 
 if __name__ == '__main__':
     private_key = '0x0000000000000000000000000000000000000000000000000000000011221104'
@@ -8,10 +9,10 @@ if __name__ == '__main__':
 
     resp = client.markets.list([symbol])
     market = resp[0]
-    print(f'{symbol} market info:\n', market)
+    print(f'\033[92m\n\n\n{symbol} market info:\n\033[0m', market)
 
     orderbook = client.orderbook.get('BTC-USD')[0]
-    print(f'{symbol} orderbook:\n', orderbook)
+    print(f'\033[92m\n\n\n{symbol} orderbook:\n\033[0m', orderbook)
 
     client.onboarding.onboarding()
     
@@ -22,7 +23,7 @@ if __name__ == '__main__':
         0.002,
         OrderType.LIMIT,
     )
-    print('\n\n\norder creation:\n', order_1)
+    print('\033[92m\n\n\norder creation:\n\033[0m', order_1)
 
     order_2 = client.orders.create(
         'BTC-USD',
@@ -36,17 +37,29 @@ if __name__ == '__main__':
     client.orders.amend(order_1['id'], symbol, float(market['index_price'])-1, 2)
     client.orders.cancel(order_1['id'], symbol)
     
-    orders = client.orders.list(None, 'open')
-    print('\n\n\nopen order list:\n', orders)
+    orders = client.orders.list(status=OrderStatus.OPEN.value)
+    print('\033[92m\n\n\nopen order list:\n\033[0m', orders)
+    
+    positions = client.positions.list()
+    print('\033[92m\n\n\nopen positions list:\n\033[0m', positions)
 
     account = client.account.get()
-    print('\n\n\naccount:\n', account)
+    print('\033[92m\n\n\naccount:\n\033[0m', account)
+    
+    profile = client.profile.get()
+    print('\033[92m\n\n\nprofile:\n\033[0m', profile)
+    
+    balance_history = client.balance.list()
+    print('\033[92m\n\n\nbalance history:\n\033[0m', balance_history)
+    
+    funding_payments = client.balance.list(ops_type='funding')
+    print('\033[92m\n\n\nfunding payments:\n\033[0m', funding_payments)
     
     # check jwt is valid or not (for stage env)
     client.account.validate(client._jwt)
 
     new_leverage = client.account.set_leverage('BTC-USD', 20)
-    print('\n\n\nnew leverage:\n', new_leverage)
+    print('\033[92m\n\n\nnew leverage:\n\033[0m', new_leverage)
 
     candles = client.candles.list(
         'BTC-USD',
@@ -54,13 +67,13 @@ if __name__ == '__main__':
         client.current_timestamp + 10,
         CandlePeriod.M1,
     )
-    print('\n\n\ncandles:\n', candles)
+    print('\033[92m\n\n\ncandles:\n\033[0m', candles)
 
     new_jwt = client.jwt.update()
-    print('\n\n\nnew jwt:\n', candles)
+    print('\033[92m\n\n\nnew jwt:\n\033[0m', candles)
 
     fills = client.fills.list()
-    print('\n\n\nfills:\n', fills)
+    print('\033[92m\n\n\nfills:\n\033[0m', fills)
 
     # order_fills = client.fills.list_by_order(order_id=order_1['id'])
-    # print('\n\n\norder fills:\n', order_fills)
+    # print('\033[92m\n\n\norder fills:\n\033[0m', order_fills)
