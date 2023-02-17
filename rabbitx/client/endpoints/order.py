@@ -22,6 +22,9 @@ class OrderStatus(enum.Enum):
     CLOSED = 'closed'
     REJECTED = 'rejected'
     CANCELED = 'canceled'
+    CANCELING = 'canceling'
+    AMENDING = 'amending'
+    CANCELING_ALL = 'cancelingall'
 
 
 class OrderGroup(EndpointGroup):
