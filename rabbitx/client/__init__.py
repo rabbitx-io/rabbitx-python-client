@@ -7,6 +7,8 @@ from rabbitx.client.endpoints.onboarding import OnboardingGroup, APIKey
 from rabbitx.client.endpoints.order import OrderGroup, OrderSide, OrderType, OrderStatus
 from rabbitx.client.endpoints.orderbook import OrderBookGroup
 from rabbitx.client.endpoints.position import PositionGroup
+from rabbitx.client.endpoints.profile import ProfileGroup
+from rabbitx.client.endpoints.balance import BalanceGroup
 from rabbitx.client.endpoints.trade import TradeGroup
 from rabbitx.client.session import ClientSession
 from rabbitx.client.websocket import WSClient, WSClientCallback
@@ -19,6 +21,8 @@ class Client(ClientSession):
     markets: MarketGroup
     candles: CandleGroup
     account: AccountGroup
+    profile: ProfileGroup
+    balance: BalanceGroup
     jwt: JWTGroup
     fills: FillGroup
     orderbook: OrderBookGroup
@@ -53,3 +57,5 @@ class Client(ClientSession):
         self.orderbook = OrderBookGroup(self)
         self.trades = TradeGroup(self)
         self.positions = PositionGroup(self)
+        self.profile = ProfileGroup(self)
+        self.balance = BalanceGroup(self)
