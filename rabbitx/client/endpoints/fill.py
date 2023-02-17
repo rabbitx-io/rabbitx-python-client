@@ -5,23 +5,23 @@ class FillGroup(EndpointGroup):
 
     def list(
         self,
-        timestamp_from: int,
-        timestamp_to: int,
-        offset: int = 0,
-        limit: int = 100,
         market_id: list[str] = None,
-        order_id: list[int] = None,
+        start_time: int=None,
+        end_time: int=None,
     ):
         data = dict(method='GET', path='/fills')
         self.session.sign_request(data)
-        params = dict(offset=offset, limit=limit, timestampFrom=timestamp_from, timestampTo=timestamp_to)
+        params = dict()
 
         if market_id:
             params['marketID'] = ','.join(market_id)
 
-        if order_id:
-            params['orderID'] = ','.join(map(str, order_id))
-
+        if start_time:
+            params['start_time'] = start_time
+            
+        if end_time:
+            params['end_time'] = end_time
+        
         resp = self.session.session.get(
             f'{self.session.api_url}/fills',
             params=params,
@@ -32,3 +32,9 @@ class FillGroup(EndpointGroup):
             raise Exception(err)
 
         return resp['result']
+
+    # TODO: implement this
+    def list_by_order(self, order_id:str):
+
+
+        return 

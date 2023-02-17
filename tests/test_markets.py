@@ -12,7 +12,7 @@ from rabbitx.client.endpoints.order import OrderSide, OrderType, OrderStatus
 import time
 
 private_key = '0x0000000000000000000000000000000000000000000000000000000001221104'
-client = Client(api_url=const.DEV_URL, private_key=private_key)
+client = Client(api_url=const.TESTNET_URL, private_key=private_key)
 resp = client.onboarding.onboarding()
 
 

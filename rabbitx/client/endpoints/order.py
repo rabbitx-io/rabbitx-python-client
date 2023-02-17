@@ -98,27 +98,29 @@ class OrderGroup(EndpointGroup):
 
     def list(
         self,
-        market_id: str,
-        offset: int = 0,
-        limit: int = 100,
-        side: OrderSide = None,
-        status: OrderStatus = None,
+        market_id: str=None,
+        status: OrderStatus=None,
+        start_time:int=None,
+        end_time:int=None, 
     ):
-        data = dict(method='GET', path='/orders/list')
+        data = dict(method='GET', path='/orders')
         self.session.sign_request(data)
-        params = dict(offset=offset, limit=limit)
-
-        if side:
-            params['side'] = side
-
-        if status:
-            params['status'] = status
-
+        params = dict()
+        
         if market_id:
             params['market_id'] = market_id
 
+        if status:
+            params['status'] = status
+        
+        if start_time:
+            params['start_time'] = start_time
+        
+        if end_time:
+            params['end_time'] = end_time
+
         resp = self.session.session.get(
-            f'{self.session.api_url}/orders/list',
+            f'{self.session.api_url}/orders',
             params=params,
             headers=self.session.headers,
         ).json()

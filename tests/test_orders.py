@@ -10,7 +10,7 @@ from datetime import datetime
 from pprint import pprint
 
 private_key = '0x0000000000000000000000000000000000000000000000000000000001221104'
-client = Client(api_url=const.DEV_URL, private_key=private_key)
+client = Client(api_url=const.TESTNET_URL, private_key=private_key)
 client.onboarding.onboarding()
 market_symbol = 'BTC-USD'
 
@@ -39,9 +39,12 @@ def test_order_amend():
     assert result['price'] == '10001'
 
 def test_order_list():
-    result = client.orders.list()
+    now = int(datetime.now().timestamp())
+    result = client.orders.list(market_id='BTC-USD')
+    result = client.orders.list(status=OrderStatus.OPEN.value)
+    result = client.orders.list(market_id='BTC-USD', start_time=now-1000, end_time=now)
     pprint(result)
     
-# def test_order_cancel_all():
-#     result = client.orders.cancel_all()
-#     pprint(result)
+def test_order_cancel_all():
+    result = client.orders.cancel_all()
+    pprint(result)

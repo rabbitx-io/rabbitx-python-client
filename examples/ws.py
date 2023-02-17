@@ -33,8 +33,8 @@ class TestWebSocketCallback(WSClientCallback):
 
 if __name__ == '__main__':
     private_key = '0x0000000000000000000000000000000000000000000000000000000001221104'
-    client = Client(api_url=const.DEV_URL, private_key=private_key)
+    client = Client(api_url=const.TESTNET_URL, private_key=private_key)
     client.onboarding.onboarding()
 
-    wsc = WSClient(const.WS_DEV_URL, client, TestWebSocketCallback(), ['BTC-USD', 'ETH-USD', 'SOL-USD'])
+    wsc = WSClient(const.WS_TESTNET_URL, client, TestWebSocketCallback(), ['BTC-USD', 'ETH-USD', 'SOL-USD'])
     wsc.run()
