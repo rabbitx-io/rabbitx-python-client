@@ -33,8 +33,19 @@ class FillGroup(EndpointGroup):
 
         return resp['result']
 
-    # TODO: implement this
     def list_by_order(self, order_id:str):
 
+        data = dict(method='GET', path='/fills/order')
+        self.session.sign_request(data)
+        params = dict(order_id=order_id)
+        
+        resp = self.session.session.get(
+            f'{self.session.api_url}/fills/order',
+            params=params,
+            headers=self.session.headers,
+        ).json()
 
-        return 
+        if err := resp['error']:
+            raise Exception(err)
+
+        return resp['result']

@@ -1,4 +1,5 @@
 from datetime import datetime
+import enum
 from rabbitx.client.endpoint_group import EndpointGroup
 
 class OpsType(enum.Enum):

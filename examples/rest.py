@@ -33,6 +33,7 @@ if __name__ == '__main__':
         OrderType.LIMIT,
     )
 
+    print('\033[92m\n\n\norder creation:\n\033[0m', order_2)
     
     client.orders.amend(order_1['id'], symbol, float(market['index_price'])-1, 2)
     client.orders.cancel(order_1['id'], symbol)
@@ -43,6 +44,12 @@ if __name__ == '__main__':
     positions = client.positions.list()
     print('\033[92m\n\n\nopen positions list:\n\033[0m', positions)
 
+    fills = client.fills.list()
+    print('\033[92m\n\n\nfills:\n\033[0m', fills)
+
+    order_fills = client.fills.list_by_order(order_id=order_2['id'])
+    print('\033[92m\n\n\norder fills:\n\033[0m', order_fills)
+    
     account = client.account.get()
     print('\033[92m\n\n\naccount:\n\033[0m', account)
     
@@ -71,9 +78,3 @@ if __name__ == '__main__':
 
     new_jwt = client.jwt.update()
     print('\033[92m\n\n\nnew jwt:\n\033[0m', candles)
-
-    fills = client.fills.list()
-    print('\033[92m\n\n\nfills:\n\033[0m', fills)
-
-    # order_fills = client.fills.list_by_order(order_id=order_1['id'])
-    # print('\033[92m\n\n\norder fills:\n\033[0m', order_fills)
