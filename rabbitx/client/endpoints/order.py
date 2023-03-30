@@ -101,6 +101,7 @@ class OrderGroup(EndpointGroup):
 
     def list(
         self,
+        order_id: str=None,
         market_id: str=None,
         status: OrderStatus=None,
         start_time:int=None,
@@ -109,6 +110,9 @@ class OrderGroup(EndpointGroup):
         data = dict(method='GET', path='/orders')
         self.session.sign_request(data)
         params = dict()
+        
+        if order_id:
+            params['order_id'] = order_id
         
         if market_id:
             params['market_id'] = market_id
