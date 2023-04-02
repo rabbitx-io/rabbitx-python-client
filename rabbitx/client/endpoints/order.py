@@ -118,7 +118,7 @@ class OrderGroup(EndpointGroup):
             params['market_id'] = market_id
 
         if status:
-            params['status'] = status
+            params['status'] = status.value
         
         if start_time:
             params['start_time'] = start_time
