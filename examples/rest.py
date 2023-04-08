@@ -45,6 +45,9 @@ if __name__ == '__main__':
     orders = client.orders.list(status=OrderStatus.OPEN.value)
     print('\033[92m\n\n\nopen order list:\n\033[0m', orders)
     
+    order_status = client.orders.list(order_id=order_2['id'])
+    print('\033[92m\n\n\norder 2 status:\n\033[0m', order_status)
+    
     positions = client.positions.list()
     print('\033[92m\n\n\nopen positions list:\n\033[0m', positions)
 
