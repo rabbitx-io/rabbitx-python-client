@@ -105,6 +105,7 @@ class OrderGroup(EndpointGroup):
         status: OrderStatus=None,
         start_time:int=None,
         end_time:int=None, 
+        order_id:str=None
     ):
         data = dict(method='GET', path='/orders')
         self.session.sign_request(data)
@@ -121,6 +122,9 @@ class OrderGroup(EndpointGroup):
         
         if end_time:
             params['end_time'] = end_time
+        
+        if order_id:
+            params['order_id'] = order_id
 
         resp = self.session.session.get(
             f'{self.session.api_url}/orders',
