@@ -3,9 +3,13 @@ from rabbitx.client import Client, CandlePeriod, OrderSide, OrderType
 from rabbitx.client import OrderStatus
 
 if __name__ == '__main__':
-    private_key = '0x0000000000000000000000000000000000000000000000000000000011221104'
+    private_key = '0x0000000000000000000000000000000000000000000000000000000011221104' # change this to your private key
     symbol = 'BTC-USD'
-    client = Client(api_url=const.TESTNET_URL, private_key=private_key)
+    testnet=True # change this to False if using on mainnet
+    if testnet:
+        client = Client(api_url=const.TESTNET_URL, private_key=private_key) 
+    else:
+        client = Client(api_url=const.URL, private_key=private_key)
 
     resp = client.markets.list([symbol])
     market = resp[0]

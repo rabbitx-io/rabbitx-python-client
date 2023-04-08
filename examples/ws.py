@@ -32,9 +32,16 @@ class TestWebSocketCallback(WSClientCallback):
 
 
 if __name__ == '__main__':
-    private_key = '0x0000000000000000000000000000000000000000000000000000000001221104'
-    client = Client(api_url=const.TESTNET_URL, private_key=private_key)
+    private_key = '0x0000000000000000000000000000000000000000000000000000000001221104' # change this to your private key
+    testnet=True # change this to False if using on mainnet
+    if testnet:
+        client = Client(api_url=const.TESTNET_URL, private_key=private_key) 
+    else:
+        client = Client(api_url=const.URL, private_key=private_key)
     client.onboarding.onboarding()
 
-    wsc = WSClient(const.WS_TESTNET_URL, client, TestWebSocketCallback(), ['BTC-USD', 'ETH-USD', 'SOL-USD'])
+    if testnet:
+        wsc = WSClient(const.WS_TESTNET_URL, client, TestWebSocketCallback(), ['BTC-USD', 'ETH-USD', 'SOL-USD'])
+    else:
+        wsc = WSClient(const.WS_URL, client, TestWebSocketCallback(), ['BTC-USD', 'ETH-USD', 'SOL-USD'])
     wsc.run()
