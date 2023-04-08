@@ -106,7 +106,6 @@ class OrderGroup(EndpointGroup):
         status: OrderStatus=None,
         start_time:int=None,
         end_time:int=None, 
-        order_id:str=None
     ):
         data = dict(method='GET', path='/orders')
         self.session.sign_request(data)
