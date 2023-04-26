@@ -36,6 +36,7 @@ class OrderGroup(EndpointGroup):
         side: OrderSide,
         size: float,
         type_: OrderType,
+        client_order_id:str=None,
     ):
         data = dict(
             market_id=market_id,
@@ -43,6 +44,7 @@ class OrderGroup(EndpointGroup):
             side=side.value,
             size=size,
             type=type_.value,
+            client_order_id=client_order_id,
             method='POST',
             path='/orders',
         )
@@ -102,6 +104,7 @@ class OrderGroup(EndpointGroup):
     def list(
         self,
         order_id: str=None,
+        client_order_id: str=None,
         market_id: str=None,
         status: OrderStatus=None,
         start_time:int=None,
@@ -128,6 +131,9 @@ class OrderGroup(EndpointGroup):
         
         if order_id:
             params['order_id'] = order_id
+            
+        if client_order_id:
+            params['client_order_id'] = client_order_id
 
         resp = self.session.session.get(
             f'{self.session.api_url}/orders',
