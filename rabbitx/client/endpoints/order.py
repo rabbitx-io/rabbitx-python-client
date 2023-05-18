@@ -44,10 +44,13 @@ class OrderGroup(EndpointGroup):
             side=side.value,
             size=size,
             type=type_.value,
-            client_order_id=client_order_id,
             method='POST',
             path='/orders',
         )
+        
+        if client_order_id:
+            data['client_order_id'] = client_order_id
+        
         self.session.sign_request(data)
         resp = self.session.session.post(
             f'{self.session.api_url}/orders',
@@ -87,7 +90,9 @@ class OrderGroup(EndpointGroup):
 
         return resp['result'][0]
 
-    def cancel(self, order_id: int, market_id: str):
+    def cancel(self, 
+               order_id: int, 
+               market_id: str):
         data = dict(order_id=order_id, market_id=market_id, method='DELETE', path='/orders')
         self.session.sign_request(data)
         resp = self.session.session.delete(
