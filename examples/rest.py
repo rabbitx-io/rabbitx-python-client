@@ -20,6 +20,8 @@ if __name__ == '__main__':
 
     client.onboarding.onboarding()
     
+    new_jwt = client.jwt.update(client._jwt)
+    print('\033[92m\n\n\nnew jwt:\n\033[0m', new_jwt)
     order_1 = client.orders.create(
         'BTC-USD',
         float(market['index_price']),
@@ -83,5 +85,3 @@ if __name__ == '__main__':
     )
     print('\033[92m\n\n\ncandles:\n\033[0m', candles)
 
-    new_jwt = client.jwt.update()
-    print('\033[92m\n\n\nnew jwt:\n\033[0m', candles)
