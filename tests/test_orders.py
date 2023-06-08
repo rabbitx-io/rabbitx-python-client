@@ -41,7 +41,7 @@ def test_order_amend():
 def test_order_list():
     now = int(datetime.now().timestamp())
     result = client.orders.list(market_id='BTC-USD')
-    result = client.orders.list(status=OrderStatus.OPEN.value)
+    result = client.orders.list(status=OrderStatus.OPEN)
     result = client.orders.list(market_id='BTC-USD', start_time=now-1000, end_time=now)
     pprint(result)
     
