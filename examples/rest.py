@@ -1,9 +1,13 @@
 from rabbitx import const
 from rabbitx.client import Client, CandlePeriod, OrderSide, OrderType
 from rabbitx.client import OrderStatus
+import os
+from dotenv import load_dotenv
+
+load_dotenv('./.env')
 
 if __name__ == '__main__':
-    private_key = '0x0000000000000000000000000000000000000000000000000000000011221104' # change this to your private key
+    private_key = os.environ['PRIVATE_KEY'] # change this to your private key
     symbol = 'BTC-USD'
     testnet=True # change this to False if using on mainnet
     if testnet:
@@ -44,7 +48,7 @@ if __name__ == '__main__':
     client.orders.amend(order_1['id'], symbol, float(market['index_price'])-1, 2)
     client.orders.cancel(order_1['id'], symbol)
     
-    orders = client.orders.list(status=OrderStatus.OPEN.value)
+    orders = client.orders.list(status=OrderStatus.OPEN)
     print('\033[92m\n\n\nopen order list:\n\033[0m', orders)
     
     order_status = client.orders.list(order_id=order_2['id'])

@@ -107,7 +107,6 @@ class ClientSession:
         if not self.private_key:
             raise ValueError
 
-        assert self.private_key.startswith('0x')
         account: LocalAccount = w3.eth.account.from_key(self.private_key)
         
         return account.address
