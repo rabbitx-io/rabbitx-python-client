@@ -36,6 +36,7 @@ class OrderGroup(EndpointGroup):
         side: OrderSide,
         size: float,
         type_: OrderType,
+        client_order_id:str=None,
     ):
         data = dict(
             market_id=market_id,
@@ -46,6 +47,10 @@ class OrderGroup(EndpointGroup):
             method='POST',
             path='/orders',
         )
+        
+        if client_order_id:
+            data['client_order_id'] = client_order_id
+        
         self.session.sign_request(data)
         resp = self.session.session.post(
             f'{self.session.api_url}/orders',
@@ -85,7 +90,9 @@ class OrderGroup(EndpointGroup):
 
         return resp['result'][0]
 
-    def cancel(self, order_id: int, market_id: str):
+    def cancel(self, 
+               order_id: int, 
+               market_id: str):
         data = dict(order_id=order_id, market_id=market_id, method='DELETE', path='/orders')
         self.session.sign_request(data)
         resp = self.session.session.delete(
@@ -101,26 +108,40 @@ class OrderGroup(EndpointGroup):
 
     def list(
         self,
+        order_id: str=None,
+        client_order_id: str=None,
         market_id: str=None,
         status: OrderStatus=None,
         start_time:int=None,
-        end_time:int=None, 
+        end_time:int=None,
+        p_limit: int=50,
+        p_order: str="DESC",
+        p_page: int=0
     ):
         data = dict(method='GET', path='/orders')
         self.session.sign_request(data)
-        params = dict()
+        params = dict(p_limit=p_limit, p_order=p_order, p_page=p_page)
+        
+        if order_id:
+            params['order_id'] = order_id
         
         if market_id:
             params['market_id'] = market_id
 
         if status:
-            params['status'] = status
+            params['status'] = status.value
         
         if start_time:
             params['start_time'] = start_time
         
         if end_time:
             params['end_time'] = end_time
+        
+        if order_id:
+            params['order_id'] = order_id
+            
+        if client_order_id:
+            params['client_order_id'] = client_order_id
 
         resp = self.session.session.get(
             f'{self.session.api_url}/orders',

@@ -3,9 +3,9 @@ from rabbitx.client.endpoint_group import EndpointGroup
 
 class JWTGroup(EndpointGroup):
 
-    def update(self):
+    def update(self, jwt_token=''):
         data = dict(
-            refresh_token='',
+            refresh_token=jwt_token,
             is_client=False,
             method='POST',
             path='/jwt',

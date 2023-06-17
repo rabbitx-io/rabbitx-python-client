@@ -3,9 +3,13 @@ from rabbitx.client import Client, CandlePeriod, OrderSide, OrderType
 from rabbitx.client import OrderStatus
 
 if __name__ == '__main__':
-    private_key = '0x0000000000000000000000000000000000000000000000000000000011221104'
+    private_key = '0x0000000000000000000000000000000000000000000000000000000011221104' # change this to your private key
     symbol = 'BTC-USD'
-    client = Client(api_url=const.TESTNET_URL, private_key=private_key)
+    testnet=True # change this to False if using on mainnet
+    if testnet:
+        client = Client(api_url=const.TESTNET_URL, private_key=private_key) 
+    else:
+        client = Client(api_url=const.URL, private_key=private_key)
 
     resp = client.markets.list([symbol])
     market = resp[0]
@@ -16,6 +20,8 @@ if __name__ == '__main__':
 
     client.onboarding.onboarding()
     
+    new_jwt = client.jwt.update(client._jwt)
+    print('\033[92m\n\n\nnew jwt:\n\033[0m', new_jwt)
     order_1 = client.orders.create(
         'BTC-USD',
         float(market['index_price']),
@@ -38,8 +44,11 @@ if __name__ == '__main__':
     client.orders.amend(order_1['id'], symbol, float(market['index_price'])-1, 2)
     client.orders.cancel(order_1['id'], symbol)
     
-    orders = client.orders.list(status=OrderStatus.OPEN.value)
+    orders = client.orders.list(status=OrderStatus.OPEN)
     print('\033[92m\n\n\nopen order list:\n\033[0m', orders)
+    
+    order_status = client.orders.list(order_id=order_2['id'])
+    print('\033[92m\n\n\norder 2 status:\n\033[0m', order_status)
     
     positions = client.positions.list()
     print('\033[92m\n\n\nopen positions list:\n\033[0m', positions)
@@ -76,5 +85,3 @@ if __name__ == '__main__':
     )
     print('\033[92m\n\n\ncandles:\n\033[0m', candles)
 
-    new_jwt = client.jwt.update()
-    print('\033[92m\n\n\nnew jwt:\n\033[0m', candles)
