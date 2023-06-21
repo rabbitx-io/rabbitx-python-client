@@ -69,10 +69,10 @@ if __name__ == '__main__':
     profile = client.profile.get()
     print('\033[92m\n\n\nprofile:\n\033[0m', profile)
     
-    balance_history = client.balance.list()
+    balance_history = client.balance.list(p_limit=100)
     print('\033[92m\n\n\nbalance history:\n\033[0m', balance_history)
     
-    funding_payments = client.balance.list(ops_type='funding')
+    funding_payments = client.balance.list(ops_type='funding', p_limit=100)
     print('\033[92m\n\n\nfunding payments:\n\033[0m', funding_payments)
     
     # check jwt is valid or not (for stage env)
