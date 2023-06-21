@@ -9,6 +9,7 @@ web3 = "*"
 cent = "*"
 websocket-client = "*"
 rel = "*"
+python-dotenv = "*"
 
 [dev-packages]
 pytest = "*"

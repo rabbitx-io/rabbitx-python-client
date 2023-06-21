@@ -3,6 +3,9 @@ from websocket import WebSocketApp
 from rabbitx import const
 from rabbitx.client import Client, WSClient, WSClientCallback
 from pprint import pprint
+from dotenv import load_dotenv
+import os
+load_dotenv('./.env')
 
 class TestWebSocketCallback(WSClientCallback):
 
@@ -40,7 +43,7 @@ class TestWebSocketCallback(WSClientCallback):
 
 
 if __name__ == '__main__':
-    private_key = '0x0000000000000000000000000000000000000000000000000000000001221104' # change this to your private key
+    private_key = os.environ['PRIVATE_KEY'] # change this to your private key
     testnet=True # change this to False if using on mainnet
     if testnet:
         client = Client(api_url=const.TESTNET_URL, private_key=private_key) 
