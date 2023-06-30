@@ -7,12 +7,10 @@ class TradeGroup(EndpointGroup):
 
     def list(
         self,
-        market_id: str,
-        limit:int = 100
+        market_id:str,
+        **kwargs
     ):
-        params = dict(market_id=market_id)
-
-        params['limit'] = limit
+        params = dict(market_id=market_id, **kwargs)
 
         resp = self.session.session.get(
             f'{self.session.api_url}/markets/trades',
@@ -22,5 +20,5 @@ class TradeGroup(EndpointGroup):
 
         if err := resp['error']:
             raise Exception(err)
-
-        return resp['result']
+        
+        return resp
