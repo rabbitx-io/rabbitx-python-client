@@ -13,7 +13,7 @@ if __name__ == '__main__':
     if testnet:
         client = Client(api_url=const.TESTNET_URL, private_key=private_key) 
     else:
-        client = Client(api_url=const.API_URL, private_key=private_key)
+        client = Client(api_url=const.URL, private_key=private_key)
 
     resp = client.markets.list([symbol])
     market = resp[0]
