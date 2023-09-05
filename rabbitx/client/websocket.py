@@ -86,13 +86,12 @@ class WSClient:
     def on_message(self, ws: WebSocketApp, message: str):
         for line in message.split('\n'):
             try:
-                data = json.loads(line)
+                data: dict = json.loads(line)
             except Exception as e:
                 print(u'\u001b[31m ~~~ EXCEPTION ~~~')
                 print(e)
                 print(message, u'u\u001b[0m')
                 return
-
             # ping
             if data == {}:
                 ws.send(json.dumps({}))

@@ -26,6 +26,12 @@ class OrderStatus(enum.Enum):
     AMENDING = 'amending'
     CANCELING_ALL = 'cancelingall'
 
+class TimeInForce(enum.Enum):
+    FOK = 'fill_or_kill'
+    IOC = 'immediate_or_cancel'
+    POSTONLY = 'post_only'
+    GTC = 'good_till_cancel'
+    
 
 class OrderGroup(EndpointGroup):
 
@@ -36,7 +42,8 @@ class OrderGroup(EndpointGroup):
         side: OrderSide,
         size: float,
         type_: OrderType,
-        client_order_id:str=None,
+        client_order_id: str=None,
+        time_in_force: TimeInForce=None,
     ):
         data = dict(
             market_id=market_id,
@@ -50,6 +57,9 @@ class OrderGroup(EndpointGroup):
         
         if client_order_id:
             data['client_order_id'] = client_order_id
+        
+        if time_in_force:
+            data['time_in_force'] = time_in_force.value
         
         self.session.sign_request(data)
         resp = self.session.session.post(

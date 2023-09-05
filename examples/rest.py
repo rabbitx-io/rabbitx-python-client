@@ -1,12 +1,11 @@
 from rabbitx import const
-from rabbitx.client import Client, CandlePeriod, OrderSide, OrderType
+from rabbitx.client import Client, CandlePeriod, OrderSide, OrderType, TimeInForce
 from rabbitx.client import OrderStatus
 import os
 from dotenv import load_dotenv
 
-load_dotenv('./.env')
-
 if __name__ == '__main__':
+    load_dotenv('../.env') # create and change the .env-example file to .env and add your private key
     private_key = os.environ['PRIVATE_KEY'] # change this to your private key
     symbol = 'BTC-USD'
     testnet=True # change this to False if using on mainnet
@@ -44,6 +43,29 @@ if __name__ == '__main__':
     )
 
     print('\033[92m\n\n\norder creation:\n\033[0m', order_2)
+    
+    order_3 = client.orders.create(
+        'BTC-USD',
+        float(market['min_tick']),
+        OrderSide.LONG,
+        0.001,
+        OrderType.LIMIT,
+        time_in_force=TimeInForce.POSTONLY,
+    )
+    
+    print('\033[92m\n\n\norder creation:\n\033[0m', order_3)
+    
+    order_4 = client.orders.create(
+        'BTC-USD',
+        float(100000),
+        OrderSide.LONG,
+        0.001,
+        OrderType.LIMIT,
+        time_in_force=TimeInForce.POSTONLY,
+    )
+    
+    print('\033[92m\n\n\norder creation:\n\033[0m', order_3)
+    
     
     client.orders.amend(order_1['id'], symbol, float(market['index_price'])-1, 2)
     client.orders.cancel(order_1['id'], symbol)

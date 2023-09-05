@@ -4,7 +4,7 @@ from rabbitx.client.endpoints.fill import FillGroup
 from rabbitx.client.endpoints.jwt import JWTGroup
 from rabbitx.client.endpoints.market import MarketGroup
 from rabbitx.client.endpoints.onboarding import OnboardingGroup, APIKey
-from rabbitx.client.endpoints.order import OrderGroup, OrderSide, OrderType, OrderStatus
+from rabbitx.client.endpoints.order import OrderGroup, OrderSide, OrderType, OrderStatus, TimeInForce
 from rabbitx.client.endpoints.orderbook import OrderBookGroup
 from rabbitx.client.endpoints.position import PositionGroup
 from rabbitx.client.endpoints.profile import ProfileGroup
