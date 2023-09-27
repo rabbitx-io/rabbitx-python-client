@@ -41,7 +41,6 @@ class ClientSession:
         self._jwt = jwt
         self._current_timestamp = 0
         self._signature = ''
-        self.profile_id = 0
         original_post = self.session.post
         original_get = self.session.get
         original_put = self.session.put
@@ -114,5 +113,5 @@ class ClientSession:
     def sign_request(self, data: dict[str, Any]):
         payload = Payload(self.expiration_timestamp, data)
         if not self.api_secret:
-            raise ValueError('Unauthorised, use client.onboarding.onboarding() to authorise')
+            raise ValueError('Unauthorised, check your api key and secret or use client.onboarding.onboarding() to authorise.')
         self._signature = payload.sign(self.api_secret)
