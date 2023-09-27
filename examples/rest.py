@@ -4,15 +4,23 @@ from rabbitx.client import OrderStatus
 import os
 from dotenv import load_dotenv
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 if __name__ == '__main__':
-    load_dotenv('../.env') # create and change the .env-example file to .env and add your private key
-    private_key = os.environ['PRIVATE_KEY'] # change this to your private key
+    load_dotenv('./.env') # create and change the .env-example file to .env and add your private key
+    api_key = os.environ['API_KEY']
+    api_secret = os.environ['API_SECRET']
+    public_jwt = os.environ['PUBLIC_JWT']
+    private_jwt = os.environ['PRIVATE_JWT']
+                         
     symbol = 'BTC-USD'
-    testnet=True # change this to False if using on mainnet
+    testnet=False # change this to True if using on testnet
     if testnet:
-        client = Client(api_url=const.TESTNET_URL, private_key=private_key) 
+        client = Client(api_url=const.TESTNET_URL, api_key=api_key, api_secret=api_secret,jwt=public_jwt) 
     else:
-        client = Client(api_url=const.URL, private_key=private_key)
+        client = Client(api_url=const.URL, api_key=api_key, api_secret=api_secret, jwt=public_jwt)
+
+    client.onboarding.init()
 
     resp = client.markets.list([symbol])
     market = resp[0]
@@ -20,23 +28,22 @@ if __name__ == '__main__':
 
     orderbook = client.orderbook.get('BTC-USD')[0]
     print(f'\033[92m\n\n\n{symbol} orderbook:\n\033[0m', orderbook)
-
-    client.onboarding.onboarding()
     
     new_jwt = client.jwt.update(client._jwt)
     print('\033[92m\n\n\nnew jwt:\n\033[0m', new_jwt)
+    
     order_1 = client.orders.create(
         'BTC-USD',
-        float(market['index_price']),
+        float(market['min_tick']),
         OrderSide.LONG,
         0.002,
         OrderType.LIMIT,
     )
     print('\033[92m\n\n\norder creation:\n\033[0m', order_1)
-
+    
     order_2 = client.orders.create(
         'BTC-USD',
-        float(market['index_price']),
+        float(1e9),
         OrderSide.SHORT,
         0.001,
         OrderType.LIMIT,
@@ -53,11 +60,9 @@ if __name__ == '__main__':
         time_in_force=TimeInForce.POSTONLY,
     )
     
-    print('\033[92m\n\n\norder creation:\n\033[0m', order_3)
-    
     order_4 = client.orders.create(
         'BTC-USD',
-        float(100000),
+        float(1e9),
         OrderSide.LONG,
         0.001,
         OrderType.LIMIT,
@@ -66,15 +71,14 @@ if __name__ == '__main__':
     
     print('\033[92m\n\n\norder creation:\n\033[0m', order_3)
     
-    
-    client.orders.amend(order_1['id'], symbol, float(market['index_price'])-1, 2)
+    client.orders.amend(order_1['id'], symbol, float(market['min_tick']+1), 2)
     client.orders.cancel(order_1['id'], symbol)
+    client.orders.cancel(order_2['id'], symbol)
+    client.orders.cancel(order_3['id'], symbol)
+    client.orders.cancel(order_4['id'], symbol)
     
     orders = client.orders.list(status=OrderStatus.OPEN)
     print('\033[92m\n\n\nopen order list:\n\033[0m', orders)
-    
-    order_status = client.orders.list(order_id=order_2['id'])
-    print('\033[92m\n\n\norder 2 status:\n\033[0m', order_status)
     
     positions = client.positions.list()
     print('\033[92m\n\n\nopen positions list:\n\033[0m', positions)
@@ -82,9 +86,6 @@ if __name__ == '__main__':
     fills = client.fills.list()
     print('\033[92m\n\n\nfills:\n\033[0m', fills)
 
-    order_fills = client.fills.list_by_order(order_id=order_2['id'])
-    print('\033[92m\n\n\norder fills:\n\033[0m', order_fills)
-    
     account = client.account.get()
     print('\033[92m\n\n\naccount:\n\033[0m', account)
     

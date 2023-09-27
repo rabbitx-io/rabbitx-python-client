@@ -16,6 +16,9 @@ class APIKey:
 class OnboardingGroup(EndpointGroup):
 
     def onboarding(self):
+        """
+        Onboarding using private key
+        """
         wallet = self.session.wallet
         signature = self._prepare_signature()
         data = dict(wallet=wallet, signature=signature, isClient=False)
@@ -44,3 +47,7 @@ class OnboardingGroup(EndpointGroup):
         signature[-1] = signature[-1] % 27
 
         return '0x' + signature.hex()
+
+    def init(self):
+        profile = self.session.profile.get()
+        self.session.profile_id = profile['id']
