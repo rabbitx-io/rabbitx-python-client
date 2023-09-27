@@ -13,11 +13,16 @@ class OrderType(enum.Enum):
 
     MARKET = 'market'
     LIMIT = 'limit'
+    STOP_LOSS = 'stop_loss'
+    TAKE_PROFIT = 'take_profit'
+    STOP_LIMIT = 'stop_limit'
+    STOP_MARKET = 'stop_market'
 
 
 class OrderStatus(enum.Enum):
 
     PROCESSING = 'processing'
+    PLACED = 'placed'
     OPEN = 'open'
     CLOSED = 'closed'
     REJECTED = 'rejected'
