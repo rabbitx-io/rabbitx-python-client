@@ -32,7 +32,6 @@ class OnboardingGroup(EndpointGroup):
             raise Exception(err)
 
         if resp['success']:
-            print(resp['result'][0])
             api_secret = resp['result'][0]['apiSecret']
             self.session.api_key = api_secret['Key']
             self.session.api_secret = api_secret['Secret']
