@@ -34,12 +34,48 @@ if __name__ == '__main__':
     
     order_1 = client.orders.create(
         'BTC-USD',
-        1,
+        float(market['min_tick']),
         OrderSide.LONG,
         0.002,
         OrderType.LIMIT,
     )
     print('\033[92m\n\n\norder creation:\n\033[0m', order_1)
+    
+    order_2 = client.orders.create(
+        'BTC-USD',
+        float(1e9),
+        OrderSide.SHORT,
+        0.001,
+        OrderType.LIMIT,
+    )
+
+    print('\033[92m\n\n\norder creation:\n\033[0m', order_2)
+    
+    order_3 = client.orders.create(
+        'BTC-USD',
+        float(market['min_tick']),
+        OrderSide.LONG,
+        0.001,
+        OrderType.LIMIT,
+        time_in_force=TimeInForce.POSTONLY,
+    )
+    
+    order_4 = client.orders.create(
+        'BTC-USD',
+        float(1e9),
+        OrderSide.LONG,
+        0.001,
+        OrderType.LIMIT,
+        time_in_force=TimeInForce.POSTONLY,
+    )
+    
+    print('\033[92m\n\n\norder creation:\n\033[0m', order_3)
+    
+    client.orders.amend(order_1['id'], symbol, float(market['min_tick']+1), 2)
+    client.orders.cancel(order_1['id'], symbol)
+    client.orders.cancel(order_2['id'], symbol)
+    client.orders.cancel(order_3['id'], symbol)
+    client.orders.cancel(order_4['id'], symbol)
     
     orders = client.orders.list(status=OrderStatus.OPEN)
     print('\033[92m\n\n\nopen order list:\n\033[0m', orders)

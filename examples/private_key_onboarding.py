@@ -71,7 +71,10 @@ if __name__ == '__main__':
     
     client.orders.amend(order_1['id'], symbol, float(market['index_price'])-1, 2)
     client.orders.cancel(order_1['id'], symbol)
-    
+    client.orders.cancel(order_2['id'], symbol)
+    client.orders.cancel(order_3['id'], symbol)
+    client.orders.cancel(order_4['id'], symbol)
+      
     orders = client.orders.list(status=OrderStatus.OPEN)
     print('\033[92m\n\n\nopen order list:\n\033[0m', orders)
     
