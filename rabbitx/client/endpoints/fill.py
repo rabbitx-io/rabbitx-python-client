@@ -17,7 +17,7 @@ class FillGroup(EndpointGroup):
         params = dict(p_limit=p_limit, p_order=p_order, p_page=p_page)
 
         if market_id:
-            params['marketID'] = ','.join(market_id)
+            params['market_id'] = ','.join(market_id)
 
         if start_time:
             params['start_time'] = start_time
