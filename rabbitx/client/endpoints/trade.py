@@ -21,4 +21,4 @@ class TradeGroup(EndpointGroup):
         if err := resp['error']:
             raise Exception(err)
         
-        return resp
+        return resp['result']
