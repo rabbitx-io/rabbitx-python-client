@@ -18,7 +18,7 @@ class ClientSession:
     private_key: str
     api_key: str
     api_secret: str
-    _jwt: str
+    public_jwt: str
     _current_timestamp: int
     _signature: str
     profile_id: int
@@ -30,7 +30,8 @@ class ClientSession:
         private_key: str = None,
         api_key: str = None,
         api_secret: str = None,
-        jwt: str = None,
+        public_jwt: str = None,
+        private_jwt: str = None,
     ):
         self.session = requests.Session()
         self.api_url = api_url.rstrip('/')
@@ -38,7 +39,8 @@ class ClientSession:
         self.private_key = private_key
         self.api_key = api_key
         self.api_secret = api_secret
-        self._jwt = jwt
+        self.public_jwt = public_jwt
+        self.private_jwt = private_jwt
         self._current_timestamp = 0
         self._signature = ''
         original_post = self.session.post

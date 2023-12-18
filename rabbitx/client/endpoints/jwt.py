@@ -20,6 +20,6 @@ class JWTGroup(EndpointGroup):
         if err := resp['error']:
             raise Exception(err)
 
-        self.session._jwt = resp['result'][0]['jwt']
+        self.session.public_jwt = resp['result'][0]['jwt']
 
         return resp['result'][0]['jwt']
