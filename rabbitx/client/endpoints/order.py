@@ -82,17 +82,22 @@ class OrderGroup(EndpointGroup):
         self,
         order_id: int,
         market_id: str,
-        price: float,
-        size: float,
+        price: float = None,
+        size: float = None,
     ):
         data = dict(
             order_id=order_id,
             market_id=market_id,
-            price=price,
-            size=size,
             method='PUT',
             path='/orders',
         )
+        
+        if size:
+            data['size'] = size
+            
+        if price:
+            data['price'] = price
+            
         self.session.sign_request(data)
         resp = self.session.session.put(
             f'{self.session.api_url}/orders',
