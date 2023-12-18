@@ -36,7 +36,8 @@ class Client(ClientSession):
         private_key: str = None,
         api_key: str = None,
         api_secret: str = None,
-        jwt: str = None,
+        public_jwt: str = None,
+        private_jwt: str = None,
     ):
         super(Client, self).__init__(
             api_url,
@@ -44,7 +45,8 @@ class Client(ClientSession):
             private_key,
             api_key,
             api_secret,
-            jwt,
+            public_jwt,
+            private_jwt,
         )
 
         self.onboarding = OnboardingGroup(self)
