@@ -59,9 +59,9 @@ if __name__ == '__main__':
     
     testnet=False # change this to False if using on mainnet
     if testnet:
-        client = Client(api_url=const.TESTNET_URL, api_key=api_key, api_secret=api_secret, jwt=private_jwt) 
+        client = Client(api_url=const.TESTNET_URL, api_key=api_key, api_secret=api_secret, public_jwt=private_jwt) 
     else:
-        client = Client(api_url=const.URL, api_key=api_key, api_secret=api_secret, jwt=private_jwt, private_key=private_key)
+        client = Client(api_url=const.URL, api_key=api_key, api_secret=api_secret, public_jwt=private_jwt, private_key=private_key)
 
     client.onboarding.onboarding()
     client.profile_id = 19

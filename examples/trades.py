@@ -16,9 +16,9 @@ if __name__ == '__main__':
     symbol = 'BTC-USD'
     testnet=False # change this to True if using on testnet
     if testnet:
-        client = Client(api_url=const.TESTNET_URL, api_key=api_key, api_secret=api_secret,jwt=public_jwt) 
+        client = Client(api_url=const.TESTNET_URL, api_key=api_key, api_secret=api_secret,public_jwt=public_jwt) 
     else:
-        client = Client(api_url=const.URL, api_key=api_key, api_secret=api_secret, jwt=public_jwt)
+        client = Client(api_url=const.URL, api_key=api_key, api_secret=api_secret, public_jwt=public_jwt)
 
     client.onboarding.init()
 
