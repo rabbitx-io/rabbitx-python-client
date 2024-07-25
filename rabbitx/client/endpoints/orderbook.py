@@ -13,7 +13,7 @@ class OrderBookGroup(EndpointGroup):
             headers=self.session.headers,
         ).json()
 
-        if err := resp['error']:
-            raise Exception(err)
+        if 'error' in resp:
+            raise Exception(resp['error'])
 
         return resp['result']

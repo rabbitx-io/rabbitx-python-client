@@ -12,8 +12,8 @@ class AccountGroup(EndpointGroup):
             headers=self.session.headers,
         ).json()
 
-        if err := resp['error']:
-            raise Exception(err)
+        if resp['success'] != True:
+            raise Exception(resp['error'])
 
         return resp['result'][0]
 
@@ -28,8 +28,8 @@ class AccountGroup(EndpointGroup):
             headers=self.session.headers,
         ).json()
 
-        if err := resp['error']:
-            raise Exception(err)
+        if resp['success'] != True:
+            raise Exception(resp['error'])
 
         return resp['success']
 
@@ -59,7 +59,7 @@ class AccountGroup(EndpointGroup):
             headers=self.session.headers,
         ).json()
 
-        if err := resp['error']:
-            raise Exception(err)
+        if resp['success'] != True:
+            raise Exception(resp['error'])
 
         return resp['result'][0]
