@@ -39,6 +39,7 @@ if __name__ == '__main__':
 
     # Use the parsed argument to set testnet
     testnet = args.testnet
+    exchange = args.exchange
 
     load_dotenv('./.env') # create and change the .env-example file to .env and add your private key
     api_key = os.environ['API_KEY']
@@ -47,7 +48,6 @@ if __name__ == '__main__':
     private_jwt = os.environ['PRIVATE_JWT']
 
     symbol = 'BTC-USD'
-    exchange = args.exchange
     
     if exchange == 'rbx':
         # Set up client
