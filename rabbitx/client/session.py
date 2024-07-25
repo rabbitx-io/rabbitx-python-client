@@ -5,6 +5,7 @@ import requests
 from requests import Session
 from web3.auto import w3
 from eth_account.signers.local import LocalAccount
+from ulid import ULID
 
 from rabbitx import const
 from rabbitx.payload import Payload
@@ -95,6 +96,7 @@ class ClientSession:
     @property
     def headers(self) -> dict[str, str]:
         headers = {'RBT-TS': str(self.expiration_timestamp)}
+        headers['Request-ID'] = ULID()
 
         if self.api_key:
             headers['RBT-API-KEY'] = self.api_key
