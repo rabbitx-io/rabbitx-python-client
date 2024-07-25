@@ -21,6 +21,7 @@
 from rabbitx import const
 from rabbitx.client import Client, CandlePeriod, OrderSide, OrderType, TimeInForce
 from rabbitx.client import OrderStatus
+import argparse
 import json
 import time
 import os
@@ -29,6 +30,16 @@ from dotenv import load_dotenv
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 if __name__ == '__main__':
+
+    # Set up argument parser
+    parser = argparse.ArgumentParser(description='RabbitX API example')
+    parser.add_argument('--testnet', action='store_true', help='Use testnet instead of mainnet')
+    parser.add_argument('--exchange', type=str, default='rbx', choices=['rbx', 'bfx'], help='Choose the exchange: rbx (RabbitX) or bfx (Bitfinex)')
+    args = parser.parse_args()
+
+    # Use the parsed argument to set testnet
+    testnet = args.testnet
+
     load_dotenv('./.env') # create and change the .env-example file to .env and add your private key
     api_key = os.environ['API_KEY']
     api_secret = os.environ['API_SECRET']
@@ -36,8 +47,7 @@ if __name__ == '__main__':
     private_jwt = os.environ['PRIVATE_JWT']
 
     symbol = 'BTC-USD'
-    testnet=True # change this to True if using on testnet
-    exchange='bfx'
+    exchange = args.exchange
     
     if exchange == 'rbx':
         # Set up client
