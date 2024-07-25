@@ -75,7 +75,7 @@ class WSClient:
             channels.append(f'market:{market_id}')
 
         channels = list(set(channels))
-        data = dict(connect=dict(token=self.session.public_jwt, name='js'), id=1)
+        data = dict(connect=dict(token=self.session.private_jwt, name='js'), id=1)
         ws.send(json.dumps(data))
 
         for idx, ch in enumerate(channels):
