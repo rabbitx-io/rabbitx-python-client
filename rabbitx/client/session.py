@@ -96,7 +96,7 @@ class ClientSession:
     @property
     def headers(self) -> dict[str, str]:
         headers = {'RBT-TS': str(self.expiration_timestamp)}
-        headers['Request-ID'] = ULID()
+        headers['Request-ID'] = str(ULID())
 
         if self.api_key:
             headers['RBT-API-KEY'] = self.api_key
