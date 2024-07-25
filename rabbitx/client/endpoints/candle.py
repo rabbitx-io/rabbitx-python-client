@@ -38,7 +38,7 @@ class CandleGroup(EndpointGroup):
             headers=self.session.headers,
         ).json()
 
-        if err := resp['error']:
-            raise Exception(err)
+        if resp['success'] != True:
+            raise Exception(resp['error'])
 
         return resp['result']

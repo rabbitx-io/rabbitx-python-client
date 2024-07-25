@@ -1,36 +1,15 @@
-# This example tests the following:
-# Public endpoints:
-# * market information
-# * market trades
-# * market trades with pagination
-# * market orderbook
-# * market candles
-# * market candles with pagination
-# Private endpoints:
-# * account details
-# * profile details
-# * order placement
-# * order cancel
-# * order amend
-# * account fills
-# * account orders
-# * account balance history
-# * account positions
-
-
 from rabbitx import const
 from rabbitx.client import Client, CandlePeriod, OrderSide, OrderType, TimeInForce
 from rabbitx.client import OrderStatus
-import argparse
 import json
-import time
-import os
 from dotenv import load_dotenv
+import argparse
+import os
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv()
 
 if __name__ == '__main__':
-
+    
     # Set up argument parser
     parser = argparse.ArgumentParser(description='RabbitX API example')
     parser.add_argument('--testnet', action='store_true', help='Use testnet instead of mainnet')
@@ -63,38 +42,14 @@ if __name__ == '__main__':
 
     # Onboarding is needed for private endpoints
     client.onboarding.init()
-    # Get and print client profile information
-    profile_info = client.profile.get()
-    print('\033[92m\n\n\nClient Profile Information:\n\033[0m', json.dumps(profile_info, indent=4))
+    
     # Get market information
     resp = client.markets.list([symbol])
     market = resp[0]
     print(f'\033[92m\n\n\n{symbol} market info:\n\033[0m', json.dumps(market, indent=4))
 
-    # Get market trades
-    resp = client.trades.list(market_id='BTC-USD', p_limit=1)
-    print(f'\033[92m\n\n\n{symbol} trades:\n\033[0m', json.dumps(resp, indent=4))
-
-    # Get market orderbook
-    orderbook = client.orderbook.get('BTC-USD')[0]
-    print(f'\033[92m\n\n\n{symbol} orderbook:\n\033[0m', orderbook)
-
-    # Get Candles Data
-    resp = client.candles.list(symbol, timestamp_from=int(time.time()-3600), timestamp_to=int(time.time()), period=CandlePeriod.M1)
-    candle = resp[0]
-    print(f'\033[92m\n\n\n{symbol} candle:\n\033[0m', candle)
-            
-    account = client.account.get()
-    print('\033[92m\n\n\naccount:\n\033[0m', account)
-        
-    profile = client.profile.get()
-    print('\033[92m\n\n\nprofile:\n\033[0m', json.dumps(profile, indent=4))
-    
-    new_jwt = client.jwt.update(client.private_jwt)
-    print('\033[92m\n\n\nnew jwt:\n\033[0m', new_jwt)
-   
     order_1 = client.orders.create(
-        'BTC-USD',
+        symbol,
         float(market['min_tick']),
         OrderSide.LONG,
         0.0001,
@@ -144,29 +99,3 @@ if __name__ == '__main__':
     orders = client.orders.list(status=OrderStatus.OPEN)
     print('\033[92m\n\n\nopen order list:\n\033[0m', json.dumps(orders, indent=4))
     
-    positions = client.positions.list()
-    print('\033[92m\n\n\nopen positions list:\n\033[0m', json.dumps(positions, indent=4))
-
-    fills = client.fills.list(p_limit=1)
-    print('\033[92m\n\n\nfills:\n\033[0m', json.dumps(fills, indent=4))
-
-    balance_history = client.balance.list(p_limit=4)
-    print('\033[92m\n\n\nbalance history:\n\033[0m', json.dumps(balance_history, indent=4))
-    
-    funding_payments = client.balance.list(ops_type='funding', p_limit=1)
-    print('\033[92m\n\n\nfunding payments:\n\033[0m', funding_payments)
-    
-    # check jwt is valid or not (for stage env)
-    client.account.validate(client.public_jwt)
-
-    new_leverage = client.account.set_leverage('BTC-USD', 20)
-    print('\033[92m\n\n\nnew leverage:\n\033[0m', new_leverage)
-
-    candles = client.candles.list(
-        'BTC-USD',
-        client.current_timestamp - 10,
-        client.current_timestamp + 10,
-        CandlePeriod.M1,
-    )
-    print('\033[92m\n\n\ncandles:\n\033[0m', candles)
-
