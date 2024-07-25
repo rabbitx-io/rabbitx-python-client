@@ -22,6 +22,7 @@ class ClientSession:
     _current_timestamp: int
     _signature: str
     profile_id: int
+    exchange: str
 
     def __init__(
         self,
@@ -32,6 +33,7 @@ class ClientSession:
         api_secret: str = None,
         public_jwt: str = None,
         private_jwt: str = None,
+        exchange: str = 'rbx',
     ):
         self.session = requests.Session()
         self.api_url = api_url.rstrip('/')
@@ -43,10 +45,12 @@ class ClientSession:
         self.private_jwt = private_jwt
         self._current_timestamp = 0
         self._signature = ''
+        self.exchange = exchange
         original_post = self.session.post
         original_get = self.session.get
         original_put = self.session.put
         original_delete = self.session.delete
+
 
         def patched_post(*args, **kwargs):
             result = original_post(*args, **kwargs)
@@ -97,6 +101,8 @@ class ClientSession:
 
         if self._signature:
             headers['RBT-SIGNATURE'] = self._signature
+        if self.exchange != 'rbx':
+            headers['EID'] = self.exchange
 
         return headers
 

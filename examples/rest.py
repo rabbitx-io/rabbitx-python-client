@@ -37,12 +37,19 @@ if __name__ == '__main__':
 
     symbol = 'BTC-USD'
     testnet=False # change this to True if using on testnet
+    exchange='bfx'
     
-    # Set up client
-    if testnet:
-        client = Client(api_url=const.TESTNET_URL, api_key=api_key, api_secret=api_secret,public_jwt=public_jwt, private_jwt=private_jwt) 
-    else:
-        client = Client(api_url=const.URL, api_key=api_key, api_secret=api_secret, public_jwt=public_jwt, private_jwt=private_jwt)
+    if exchange == 'rbx':
+        # Set up client
+        if testnet:
+            client = Client(api_url=const.TESTNET_URL, api_key=api_key, api_secret=api_secret,public_jwt=public_jwt, private_jwt=private_jwt) 
+        else:
+            client = Client(api_url=const.URL, api_key=api_key, api_secret=api_secret, public_jwt=public_jwt, private_jwt=private_jwt)
+    elif exchange == 'bfx':
+        if testnet:
+            client = Client(api_url=const.TESTNET_BFX_URL, api_key=api_key, api_secret=api_secret,public_jwt=public_jwt, private_jwt=private_jwt, exchange=exchange)
+        else:
+            client = Client(api_url=const.BFX_URL, api_key=api_key, api_secret=api_secret, public_jwt=public_jwt, private_jwt=private_jwti, exchange=exchange)
 
     # Onboarding is needed for private endpoints
     client.onboarding.init()
@@ -73,7 +80,7 @@ if __name__ == '__main__':
     
     new_jwt = client.jwt.update(client.private_jwt)
     print('\033[92m\n\n\nnew jwt:\n\033[0m', new_jwt)
-    
+   
     order_1 = client.orders.create(
         'BTC-USD',
         float(market['min_tick']),
