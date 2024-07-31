@@ -26,8 +26,12 @@ import json
 import time
 import os
 from dotenv import load_dotenv
+import json
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+
+
 
 if __name__ == '__main__':
 
@@ -42,10 +46,18 @@ if __name__ == '__main__':
     exchange = args.exchange
 
     load_dotenv('./.env') # create and change the .env-example file to .env and add your private key
-    api_key = os.environ['API_KEY']
-    api_secret = os.environ['API_SECRET']
-    public_jwt = os.environ['PUBLIC_JWT']
-    private_jwt = os.environ['PRIVATE_JWT']
+
+    
+    # Read the apiKey.json file
+    with open('apiKey.json', 'r') as file:
+        api_data = json.load(file)
+
+    # Extract the required information
+    api_key = api_data['key']
+    api_secret = api_data['secret']
+    private_jwt = api_data['privateJwt']
+    public_jwt = api_data['publicJwt']
+    private_jwt = api_data['privateJwt']
 
     symbol = 'BTC-USD'
     

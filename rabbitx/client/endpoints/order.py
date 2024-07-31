@@ -187,3 +187,55 @@ class OrderGroup(EndpointGroup):
             raise Exception(resp['error'])
 
         return resp['result']
+
+    def get_cancel_all_after(self):
+        data = dict(method='GET', path='/cancel_all_after')
+        self.session.sign_request(data)
+
+        resp = self.session.session.get(
+            f'{self.session.api_url}/cancel_all_after',
+            headers=self.session.headers,
+        ).json()
+
+        if resp['success'] != True:
+            raise Exception(resp['error'])
+
+        return resp['result']
+
+    def delete_cancel_all_after(self):
+        data = dict(method='DELETE', path='/cancel_all_after')
+        self.session.sign_request(data)
+
+        resp = self.session.session.get(
+            f'{self.session.api_url}/cancel_all_after',
+            headers=self.session.headers,
+        ).json()
+
+        if resp['success'] != True:
+            raise Exception(resp['error'])
+
+        return resp['result']
+
+    def cancel_all_after(
+        self,
+        timeout: int, # in milliseconds
+    ):
+        data = dict(
+            timeout=timeout,
+            method='POST',
+            path='/cancel_all_after',
+        )
+        
+        self.session.sign_request(data)
+        resp = self.session.session.post(
+            f'{self.session.api_url}/cancel_all_after',
+            json=data,
+            headers=self.session.headers,
+        )
+        if resp.status_code != 200:
+            raise Exception(resp.content)
+
+        if resp['success'] != True:
+            raise Exception(resp['error'])
+
+        return resp['result'][0]
