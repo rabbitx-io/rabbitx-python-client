@@ -20,6 +20,6 @@ class JWTGroup(EndpointGroup):
         if resp['success'] != True:
             raise Exception(resp['error'])
 
-        self.session.public_jwt = resp['result'][0]['jwt']
+        self.session.private_jwt = resp['result'][0]['jwt']
 
         return resp['result'][0]['jwt']

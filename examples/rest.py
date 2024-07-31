@@ -177,7 +177,7 @@ if __name__ == '__main__':
     print('\033[92m\n\n\nfunding payments:\n\033[0m', funding_payments)
     
     # check jwt is valid or not (for stage env)
-    client.account.validate(client.public_jwt)
+    client.account.validate(client.private_jwt)
 
     new_leverage = client.account.set_leverage('BTC-USD', 20)
     print('\033[92m\n\n\nnew leverage:\n\033[0m', new_leverage)

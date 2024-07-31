@@ -20,6 +20,7 @@ class ClientSession:
     api_key: str
     api_secret: str
     public_jwt: str
+    private_jwt: str
     _current_timestamp: int
     _signature: str
     profile_id: int
