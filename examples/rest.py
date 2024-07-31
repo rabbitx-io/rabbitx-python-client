@@ -83,7 +83,9 @@ if __name__ == '__main__':
 
     # Onboarding is needed for private endpoints
     client.onboarding.init()
-
+    # Get and print client profile information
+    profile_info = client.profile.get()
+    print('\033[92m\n\n\nClient Profile Information:\n\033[0m', json.dumps(profile_info, indent=4))
     # Get market information
     resp = client.markets.list([symbol])
     market = resp[0]

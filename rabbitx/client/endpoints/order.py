@@ -238,4 +238,4 @@ class OrderGroup(EndpointGroup):
         if resp['success'] != True:
             raise Exception(resp['error'])
 
-        return resp['result'][0]
+        return resp['result']
