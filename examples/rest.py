@@ -26,8 +26,10 @@ import json
 import time
 import os
 from dotenv import load_dotenv
+import json
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 
 if __name__ == '__main__':
 
@@ -42,10 +44,28 @@ if __name__ == '__main__':
     exchange = args.exchange
 
     load_dotenv('./.env') # create and change the .env-example file to .env and add your private key
-    api_key = os.environ['API_KEY']
-    api_secret = os.environ['API_SECRET']
-    public_jwt = os.environ['PUBLIC_JWT']
-    private_jwt = os.environ['PRIVATE_JWT']
+    
+    # Read the apiKey.json exported from RabbitX during api key creation
+    api_key_file = 'apiKey.json'
+    if os.path.exists(api_key_file):
+        with open(api_key_file, 'r') as file:
+            api_data = json.load(file)
+            # Extract the required information
+            api_key = api_data['key']
+            api_secret = api_data['secret']
+            private_jwt = api_data['privateJwt']
+            public_jwt = api_data['publicJwt']
+            private_jwt = api_data['privateJwt']    
+    else:
+        # Load from .env environment variables if apiKey.json is not found
+        api_key = os.environ.get('API_KEY')
+        api_secret = os.environ.get('API_SECRET')
+        public_jwt = os.environ.get('PUBLIC_JWT')
+        private_jwt = os.environ.get('PRIVATE_JWT')
+
+        if not all([api_key, api_secret, public_jwt, private_jwt]):
+            print("Error: Required environment variables are not set.")
+            exit(1)
 
     symbol = 'BTC-USD'
     

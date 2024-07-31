@@ -7,5 +7,5 @@ setup(
     version='0.1.3',
     description='Rabbit API client',
     packages=find_packages(exclude=['tests']),
-    install_requires=['requests', 'web3', 'websocket-client', 'rel'],
+    install_requires=['requests', 'web3', 'websocket-client', 'rel', 'python-ulid', 'python-dotenv'],
 )
