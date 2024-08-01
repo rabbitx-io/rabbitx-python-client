@@ -26,7 +26,7 @@ class Payload:
             raise KeyError
 
     @property
-    def hash(self) -> bytes:
+    def hash_old(self) -> bytes:
         keys = list(self.data.keys())
         keys.sort()
         message = [f'{k}={str(self.data[k]).lower()}' if type(self.data[k]) == bool else f'{k}={self.data[k]}' for k in keys]
@@ -36,6 +36,30 @@ class Payload:
         h = hashlib.sha256()
         h.update(message.encode())
 
+        return h.digest()
+    
+    @property
+    def hash(self) -> bytes:
+        keys = sorted(self.data.keys())
+        message_parts = []
+        
+        for key in keys:
+            value = self.data[key]
+            if isinstance(value, bool):
+                value_str = str(value).lower()
+            elif isinstance(value, list):
+                value_str = str(value)  # Convert list to string
+                value_str = value_str.replace('\'', '"')  # Convert single quotes to double quotes
+            else:
+                value_str = str(value)
+            message_parts.append(f'{key}={value_str}')
+        
+        message_parts.append(str(self.timestamp))
+        message = ''.join(message_parts)
+        
+        h = hashlib.sha256()
+        h.update(message.encode('utf-8'))
+        
         return h.digest()
 
     def sign(self, secret: str) -> str:
