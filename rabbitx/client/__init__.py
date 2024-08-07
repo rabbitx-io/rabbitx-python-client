@@ -10,6 +10,7 @@ from rabbitx.client.endpoints.position import PositionGroup
 from rabbitx.client.endpoints.profile import ProfileGroup
 from rabbitx.client.endpoints.balance import BalanceGroup
 from rabbitx.client.endpoints.trade import TradeGroup
+from rabbitx.client.endpoints.deadman import DeadmanGroup
 from rabbitx.client.session import ClientSession
 from rabbitx.client.websocket import WSClient, WSClientCallback
 
@@ -63,3 +64,4 @@ class Client(ClientSession):
         self.positions = PositionGroup(self)
         self.profile = ProfileGroup(self)
         self.balance = BalanceGroup(self)
+        self.deadman = DeadmanGroup(self)
