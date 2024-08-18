@@ -13,8 +13,10 @@ class OrderType(enum.Enum):
 
     MARKET = 'market'
     LIMIT = 'limit'
-    STOP_LOSS = 'stop_loss_limit'
-    TAKE_PROFIT = 'take_profit_limit'
+    STOP_LOSS_LIMIT = 'stop_loss_limit'
+    TAKE_PROFIT_LIMIT = 'take_profit_limit'
+    STOP_LOSS = 'stop_loss'
+    TAKE_PROFIT = 'take_profit'
     STOP_LIMIT = 'stop_limit'
     STOP_MARKET = 'stop_market'
 
