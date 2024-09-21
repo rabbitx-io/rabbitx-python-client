@@ -36,7 +36,7 @@ if __name__ == '__main__':
     # Set up argument parser
     parser = argparse.ArgumentParser(description='RabbitX API example')
     parser.add_argument('--testnet', action='store_true', help='Use testnet instead of mainnet')
-    parser.add_argument('--exchange', type=str, default='rbx', choices=['rbx', 'bfx'], help='Choose the exchange: rbx (RabbitX) or bfx (Bitfinex)')
+    parser.add_argument('--exchange', type=str, default='rbx', choices=['rbx', 'bfx'], help='Choose the exchange: RBX (RabbitX) or BFX (Blast Futures Exchange)')
     args = parser.parse_args()
 
     # Use the parsed argument to set testnet
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     load_dotenv('./.env') # create and change the .env-example file to .env and add your private key
     
     # Read the apiKey.json exported from RabbitX during api key creation
-    api_key_file = 'apiKey.json'
+    api_key_file = ''#'apiKey.json'
     if os.path.exists(api_key_file):
         with open(api_key_file, 'r') as file:
             api_data = json.load(file)
@@ -188,5 +188,8 @@ if __name__ == '__main__':
         client.current_timestamp + 10,
         CandlePeriod.M1,
     )
+
     print('\033[92m\n\n\ncandles:\n\033[0m', candles)
 
+    orders = client.orders.list(status=OrderStatus.CANCELED)
+    print('\033[92m\n\n\nclient orders:\n\033[0m', json.dumps(orders, indent=4))

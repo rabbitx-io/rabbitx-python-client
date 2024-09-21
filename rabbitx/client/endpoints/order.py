@@ -206,7 +206,7 @@ class OrderGroup(EndpointGroup):
         data = dict(method='DELETE', path='/cancel_all_after')
         self.session.sign_request(data)
 
-        resp = self.session.session.get(
+        resp = self.session.session.delete(
             f'{self.session.api_url}/cancel_all_after',
             headers=self.session.headers,
         ).json()
@@ -235,7 +235,9 @@ class OrderGroup(EndpointGroup):
         if resp.status_code != 200:
             raise Exception(resp.content)
 
-        if resp['success'] != True:
-            raise Exception(resp['error'])
 
-        return resp['result']
+        response = resp.json()
+        if response['success'] != True:
+            raise Exception(response['error'])
+
+        return response['result']
