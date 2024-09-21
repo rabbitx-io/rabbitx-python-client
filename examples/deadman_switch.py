@@ -54,7 +54,7 @@ if __name__ == '__main__':
         result = client.deadman.get()
         print(f'\033[92m\nDeadman switch status after delete:\n\033[0m', result)
 
-        timeout_ms = 20000  # Set the timeout in milliseconds
+        timeout_ms = 120000  # Set the timeout in milliseconds
         result = client.deadman.create(timeout_ms)
         print(f'\033[92m\n\n\nCancel all after {timeout_ms} ms result:\n\033[0m', result)
 
@@ -66,3 +66,4 @@ if __name__ == '__main__':
     
     # Test the cancel_all_after endpoint
     test_deadman_switch(client)
+    # client.deadman.remove()
