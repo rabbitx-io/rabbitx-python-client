@@ -13,6 +13,8 @@ class OrderType(enum.Enum):
 
     MARKET = 'market'
     LIMIT = 'limit'
+    STOP_LOSS_LIMIT = 'stop_loss_limit'
+    TAKE_PROFIT_LIMIT = 'take_profit_limit'
     STOP_LOSS = 'stop_loss'
     TAKE_PROFIT = 'take_profit'
     STOP_LIMIT = 'stop_limit'
@@ -49,6 +51,8 @@ class OrderGroup(EndpointGroup):
         type_: OrderType,
         client_order_id: str=None,
         time_in_force: TimeInForce=None,
+        trigger: float=None,
+        size_percent: float=None,
     ):
         data = dict(
             market_id=market_id,
@@ -65,6 +69,12 @@ class OrderGroup(EndpointGroup):
         
         if time_in_force:
             data['time_in_force'] = time_in_force.value
+
+        if trigger:
+            data['trigger_price'] = trigger
+        
+        if size_percent:
+            data['size_percent'] = size_percent
         
         self.session.sign_request(data)
         resp = self.session.session.post(
@@ -83,7 +93,9 @@ class OrderGroup(EndpointGroup):
         order_id: int,
         market_id: str,
         price: float = None,
+        trigger: float = None,
         size: float = None,
+        size_percent: float = None,
     ):
         data = dict(
             order_id=order_id,
@@ -94,9 +106,12 @@ class OrderGroup(EndpointGroup):
         
         if size:
             data['size'] = size
-            
+        if size_percent:
+            data['size_percent'] = size_percent
         if price:
             data['price'] = price
+        if trigger:
+            data['trigger_price'] = trigger
             
         self.session.sign_request(data)
         resp = self.session.session.put(
