@@ -17,7 +17,7 @@ if __name__ == '__main__':
     # Set up argument parser
     parser = argparse.ArgumentParser(description='RabbitX API example')
     parser.add_argument('--testnet', action='store_true', help='Use testnet instead of mainnet')
-    parser.add_argument('--exchange', type=str, default='rbx', choices=['rbx', 'bfx'], help='Choose the exchange: rbx (RabbitX) or bfx (Bitfinex)')
+    parser.add_argument('--exchange', type=str, default='rbx', choices=['rbx', 'bfx'], help='Choose the exchange: rbx (RabbitX) or bfx (Blast Futures Exchange)')
     args = parser.parse_args()
 
     # Use the parsed argument to set testnet

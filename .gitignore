@@ -104,6 +104,7 @@ celerybeat.pid
 
 # Environments
 apiKey.json
+*.json
 .env
 .venv
 env/
