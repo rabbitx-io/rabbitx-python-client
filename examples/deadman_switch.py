@@ -45,17 +45,17 @@ if __name__ == '__main__':
         print(f'\033[92m\nClient Account Equity:\n\033[0m', account_info['account_equity'])
 
     def test_deadman_switch(client):
-        result = client.deadman.get()
+        result = client.deadman.get('BTC-USD')
         print(f'\033[92m\nDeadman switch status:\n\033[0m', result)
 
-        result = client.deadman.remove()
+        result = client.deadman.remove('BTC-USD')
         print(f'\033[92m\nDelete deadman return response:\n\033[0m', result)
 
-        result = client.deadman.get()
+        result = client.deadman.get('BTC-USD')
         print(f'\033[92m\nDeadman switch status after delete:\n\033[0m', result)
 
         timeout_ms = 120000  # Set the timeout in milliseconds
-        result = client.deadman.create(timeout_ms)
+        result = client.deadman.create(timeout_ms, 'BTC-USD')
         print(f'\033[92m\n\n\nCancel all after {timeout_ms} ms result:\n\033[0m', result)
 
     # Onboarding is needed for private endpoints
