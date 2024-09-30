@@ -3,6 +3,8 @@ from typing import Any
 
 import requests
 from requests import Session
+import http.client as http_client
+import logging
 from web3.auto import w3
 from eth_account.signers.local import LocalAccount
 from ulid import ULID
@@ -25,6 +27,7 @@ class ClientSession:
     _signature: str
     profile_id: int
     exchange: str
+    debug: bool
 
     def __init__(
         self,
@@ -36,6 +39,7 @@ class ClientSession:
         public_jwt: str = None,
         private_jwt: str = None,
         exchange: str = 'rbx',
+        debug: bool = False,
     ):
         self.session = requests.Session()
         self.api_url = api_url.rstrip('/')
@@ -48,10 +52,17 @@ class ClientSession:
         self._current_timestamp = 0
         self._signature = ''
         self.exchange = exchange
+        self.debug = debug
         original_post = self.session.post
         original_get = self.session.get
         original_put = self.session.put
         original_delete = self.session.delete
+        
+        if self.debug:
+            http_client.HTTPConnection.debuglevel = 1
+            logging.basicConfig(level=logging.DEBUG)
+            logging.getLogger("requests").setLevel(logging.DEBUG)
+            logging.getLogger("urllib3").setLevel(logging.DEBUG)
 
 
         def patched_post(*args, **kwargs):
@@ -97,7 +108,7 @@ class ClientSession:
     @property
     def headers(self) -> dict[str, str]:
         headers = {'RBT-TS': str(self.expiration_timestamp)}
-        headers['Request-ID'] = str(ULID())
+        headers['X-Request-ID'] = str(ULID())
 
         if self.api_key:
             headers['RBT-API-KEY'] = self.api_key

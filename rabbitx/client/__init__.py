@@ -40,6 +40,7 @@ class Client(ClientSession):
         public_jwt: str = None,
         private_jwt: str = None,
         exchange: str = None,
+        debug: bool = False,
     ):
         super(Client, self).__init__(
             api_url,
@@ -50,6 +51,7 @@ class Client(ClientSession):
             public_jwt,
             private_jwt,
             exchange,
+            debug,
         )
 
         self.onboarding = OnboardingGroup(self)

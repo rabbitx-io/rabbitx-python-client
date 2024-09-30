@@ -1,3 +1,6 @@
+# IDE
+.vscode
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -105,7 +108,7 @@ celerybeat.pid
 # Environments
 apiKey.json
 *.json
-.env
+.env*
 .venv
 env/
 venv/
