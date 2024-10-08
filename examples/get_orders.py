@@ -72,10 +72,9 @@ if __name__ == '__main__':
     market = resp[0]
     print(f'\033[92m\n\n\n{symbol} market info:\n\033[0m', json.dumps(market, indent=4))
 
-    while True:
-        start_time = time.time()
-        orders = client.orders.list(status=OrderStatus.OPEN)
-        end_time = time.time()
-        elapsed_time = end_time - start_time
-        print(f"Time taken to get orders: {elapsed_time} seconds")
+    start_time = time.time()
+    orders = client.orders.list(status=OrderStatus.OPEN)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Time taken to get orders: {elapsed_time} seconds")
     
