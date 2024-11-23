@@ -31,6 +31,55 @@ import json
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
+def test_orders(symbol, client, market):
+    order_1 = client.orders.create(
+        'BTC-USD',
+        float(market['min_tick']),
+        OrderSide.LONG,
+        0.0001,
+        OrderType.LIMIT,
+    )
+    print('\033[92m\n\n\norder creation:\n\033[0m', order_1)
+    
+    order_2 = client.orders.create(
+        'BTC-USD',
+        float(1e9),
+        OrderSide.SHORT,
+        0.0001,
+        OrderType.LIMIT,
+    )
+
+    print('\033[92m\n\n\norder creation:\n\033[0m', order_2)
+    
+    order_3 = client.orders.create(
+        'BTC-USD',
+        float(market['min_tick']),
+        OrderSide.LONG,
+        0.0001,
+        OrderType.LIMIT,
+        time_in_force=TimeInForce.POSTONLY,
+    )
+    
+    order_4 = client.orders.create(
+        'BTC-USD',
+        float(market['best_bid']),
+        OrderSide.LONG,
+        0.0001,
+        OrderType.LIMIT,
+        time_in_force=TimeInForce.POSTONLY,
+    )
+    
+    print('\033[92m\n\n\norder creation:\n\033[0m', order_3)
+    
+    # Amend order price and size together
+    client.orders.amend(order_1['id'], symbol, price=float(market['min_tick'])*2, size=float(market['min_order'])*2)
+    # Amend order price
+    client.orders.amend(order_1['id'], symbol, price=float(market['min_tick'])*3)
+    client.orders.cancel(order_1['id'], symbol)
+    client.orders.cancel(order_2['id'], symbol)
+    client.orders.cancel(order_3['id'], symbol)
+    client.orders.cancel(order_4['id'], symbol)
+
 if __name__ == '__main__':
 
     # Set up argument parser
@@ -113,53 +162,7 @@ if __name__ == '__main__':
     new_jwt = client.jwt.update(client.private_jwt)
     print('\033[92m\n\n\nnew jwt:\n\033[0m', new_jwt)
    
-    order_1 = client.orders.create(
-        'BTC-USD',
-        float(market['min_tick']),
-        OrderSide.LONG,
-        0.0001,
-        OrderType.LIMIT,
-    )
-    print('\033[92m\n\n\norder creation:\n\033[0m', order_1)
-    
-    order_2 = client.orders.create(
-        'BTC-USD',
-        float(1e9),
-        OrderSide.SHORT,
-        0.0001,
-        OrderType.LIMIT,
-    )
-
-    print('\033[92m\n\n\norder creation:\n\033[0m', order_2)
-    
-    order_3 = client.orders.create(
-        'BTC-USD',
-        float(market['min_tick']),
-        OrderSide.LONG,
-        0.0001,
-        OrderType.LIMIT,
-        time_in_force=TimeInForce.POSTONLY,
-    )
-    
-    order_4 = client.orders.create(
-        'BTC-USD',
-        float(market['best_bid']),
-        OrderSide.LONG,
-        0.0001,
-        OrderType.LIMIT,
-        time_in_force=TimeInForce.POSTONLY,
-    )
-    
-    print('\033[92m\n\n\norder creation:\n\033[0m', order_3)
-    
-    # Amend order price and size together
-    client.orders.amend(order_1['id'], symbol, price=float(market['min_tick'])*2, size=float(market['min_order'])*2)
-    # Amend order price
-    client.orders.amend(order_1['id'], symbol, price=float(market['min_tick'])*3)
-    client.orders.cancel(order_1['id'], symbol)
-    client.orders.cancel(order_2['id'], symbol)
-    client.orders.cancel(order_3['id'], symbol)
-    client.orders.cancel(order_4['id'], symbol)
+    # test_orders(symbol, client, market)
     
     orders = client.orders.list(status=OrderStatus.OPEN)
     print('\033[92m\n\n\nopen order list:\n\033[0m', json.dumps(orders, indent=4))

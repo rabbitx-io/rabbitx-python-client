@@ -49,5 +49,5 @@ class OnboardingGroup(EndpointGroup):
         return '0x' + signature.hex()
 
     def init(self):
-        profile = self.session.profile.get()
-        self.session.profile_id = profile['id']
+        account = self.session.account.get()
+        self.session.profile_id = account['id']
