@@ -84,7 +84,7 @@ class OrderGroup(EndpointGroup):
         ).json()
 
         if resp['success'] != True:
-            raise Exception(resp['error'])
+            raise Exception(resp)
 
         return resp['result'][0]
 
@@ -121,7 +121,7 @@ class OrderGroup(EndpointGroup):
         ).json()
 
         if resp['success'] != True:
-            raise Exception(resp['error'])
+            raise Exception(resp)
 
         return resp['result'][0]
 
@@ -137,7 +137,7 @@ class OrderGroup(EndpointGroup):
         ).json()
 
         if resp['success'] != True:
-            raise Exception(resp['error'])
+            raise Exception(resp)
 
         return resp['result'][0]
 
@@ -185,7 +185,7 @@ class OrderGroup(EndpointGroup):
         ).json()
 
         if resp['success'] != True:
-            raise Exception(resp['error'])
+            raise Exception(resp)
 
         return resp['result']
 
@@ -199,6 +199,6 @@ class OrderGroup(EndpointGroup):
         ).json()
 
         if resp['success'] != True:
-            raise Exception(resp['error'])
+            raise Exception(resp)
 
         return resp['result']

@@ -14,6 +14,6 @@ class OrderBookGroup(EndpointGroup):
         ).json()
 
         if resp['success'] != True:
-            raise Exception(resp['error'])
+            raise Exception(resp)
 
         return resp['result']

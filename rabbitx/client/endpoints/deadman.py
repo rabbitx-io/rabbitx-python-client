@@ -26,7 +26,7 @@ class DeadmanGroup(EndpointGroup):
         ).json()
 
         if resp['success'] != True:
-            raise Exception(resp['error'])
+            raise Exception(resp)
 
         return resp['result'][0]
     
@@ -48,7 +48,7 @@ class DeadmanGroup(EndpointGroup):
         ).json()
 
         if resp['success'] != True:
-            raise Exception(resp['error'])
+            raise Exception(resp)
 
         return resp['result'][0]
     
@@ -64,6 +64,6 @@ class DeadmanGroup(EndpointGroup):
         ).json()
 
         if resp['success'] != True:
-            raise Exception(resp['error'])
+            raise Exception(resp)
 
         return resp['result'][0]
