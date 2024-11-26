@@ -29,7 +29,7 @@ class OnboardingGroup(EndpointGroup):
         ).json()
 
         if resp['success'] != True:
-            raise Exception(resp['error'])
+            raise Exception(resp)
 
         if resp['success']:
             api_secret = resp['result'][0]['apiSecret']

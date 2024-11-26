@@ -14,6 +14,6 @@ class ProfileGroup(EndpointGroup):
         print(resp)
 
         if resp['success'] != True:
-            raise Exception(resp['error'])
+            raise Exception(resp)
 
         return resp['result'][0]
